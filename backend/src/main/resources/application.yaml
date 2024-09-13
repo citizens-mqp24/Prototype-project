@@ -1,0 +1,8 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    driverClassName: org.postgresql.Driver
+    password: ${DB_PASSWORD:password}
+    url: ${DB_URL:password}
+    username: ${DB_USERNAME:username}
