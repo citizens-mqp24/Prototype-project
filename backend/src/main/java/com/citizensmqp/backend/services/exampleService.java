@@ -1,6 +1,7 @@
 package com.citizensmqp.backend.services;
 
-import com.citizensmqp.backend.repositorys.exampleRepository;
+import com.citizensmqp.backend.models.testModel;
+import com.citizensmqp.backend.repositorys.testRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class exampleService {
 
-    private final exampleRepository repository;
+    private final testRepository repository;
 
-    public List<String> GetAll() {
+    public List<testModel> GetAll() {
         return repository.findAll();
     }
 

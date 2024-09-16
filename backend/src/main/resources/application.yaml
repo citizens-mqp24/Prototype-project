@@ -2,7 +2,7 @@ spring:
   config:
     import: optional:file:.env[.properties]
   datasource:
-    driverClassName: org.postgresql.Driver
+    driverClassName: org.sqlite.JDBC
     password: ${DB_PASSWORD:password}
-    url: ${DB_URL:password}
+    url: ${DB_URL:url}
     username: ${DB_USERNAME:username}
