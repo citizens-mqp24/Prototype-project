@@ -32,7 +32,7 @@ public class ExampleServiceTest {
         expectsList.add("A");
         expectsList.add("B");
         expectsList.add("C");
-        when(repository.findAll()).thenReturn(expectsList);
+
         assertIterableEquals(es.GetAll(),expectsList);
     }
 }
