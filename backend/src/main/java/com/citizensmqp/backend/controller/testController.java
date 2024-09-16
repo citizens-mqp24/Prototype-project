@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 public class testController {
+
     @GetMapping
     public String test() {
         log.info("test logging");
