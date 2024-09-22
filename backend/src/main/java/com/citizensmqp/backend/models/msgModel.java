@@ -10,5 +10,6 @@ import lombok.Getter;
 @Table(name="Test")
 public class testModel {
     @Id
-    private Long testID;
+    private Long msg_ID;
 }
+
