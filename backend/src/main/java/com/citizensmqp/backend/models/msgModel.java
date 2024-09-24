@@ -5,12 +5,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
-@Id
-@GeneratedValue(strategy=GenerationType.AUTO)
 @Entity
 @Table(name="Messages")
 public class msgModel {
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long msg_ID;
 
     @Column(nullable = false)
