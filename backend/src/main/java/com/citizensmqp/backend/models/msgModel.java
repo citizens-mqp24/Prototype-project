@@ -11,5 +11,6 @@ import lombok.Getter;
 public class testModel {
     @Id
     private Long msg_ID;
+    private String msg_content;
 }
 
