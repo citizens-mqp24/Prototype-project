@@ -1,12 +1,9 @@
 package com.citizensmqp.backend.models;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
-@Table(name="Messages")
+@Table(name="Message")
 public class msgModel {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -15,16 +12,21 @@ public class msgModel {
     @Column(nullable = false)
     private String msg_content;
 
-    @Column(nullable = false)
+    @OneToOne(cascade=CascadeType.ALL)
     private userModel author;
 
     public Long getId() {
-        return id;
+        return msg_ID;
     }
 
     public msgModel(String cont, userModel auth){
         this.msg_content = cont;
         this.author = auth;
+    }
+
+    public msgModel(){
+        this.msg_content = "";
+        this.author = new userModel();
     }
 
     public String getContent() {
