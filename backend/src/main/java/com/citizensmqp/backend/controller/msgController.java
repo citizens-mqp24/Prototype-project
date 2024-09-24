@@ -14,12 +14,11 @@ import java.util.List;
 @RequestMapping("/api/test")
 @RequiredArgsConstructor
 @Slf4j
-public class testController {
+public class msgController {
     private final msgService service;
 
     @GetMapping
-    public List<testModel> test() {
-        log.info("test logging");
-        return service.GetAll();
+    public List<msgModel> getAllMsgs() {
+        return service.getMsgs();
     }
 }
