@@ -1,14 +1,14 @@
 package com.citizensmqp.backend.controller;
 
-import com.citizensmqp.backend.models.testModel;
-import com.citizensmqp.backend.services.exampleService;
+import com.citizensmqp.backend.models.msgModel;
+import com.citizensmqp.backend.services.msgService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/test")
@@ -29,12 +29,7 @@ public class msgController {
     }
 
     @PostMapping
-    public msgModel createMsg(@RequestBody msgModel msg) {
-        return service.saveMsg(msg);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteMsg(@PathVariable Long id) {
-        service.deleteMsg(id);
+    public void createMsg(@RequestBody msgModel msg) {
+        service.saveMsg(msg);
     }
 }

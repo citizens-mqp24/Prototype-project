@@ -1,16 +1,12 @@
 package com.citizensmqp.backend.models;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 
-@Id
-@GeneratedValue(strategy=GenerationType.AUTO)
 @Entity
 @Table(name="Messages")
 public class msgModel {
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long msg_ID;
 
     @Column(nullable = false)
@@ -20,7 +16,7 @@ public class msgModel {
     private userModel author;
 
     public Long getId() {
-        return id;
+        return msg_ID;
     }
 
     public msgModel(String cont, userModel auth){
