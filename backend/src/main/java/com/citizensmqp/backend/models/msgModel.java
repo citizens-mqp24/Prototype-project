@@ -31,7 +31,5 @@ public class msgModel {
     public String getContent() {
         return msg_content;
     }
-
-
 }
 
