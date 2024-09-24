@@ -8,7 +8,6 @@ import lombok.Getter;
 @Id
 @GeneratedValue(strategy=GenerationType.AUTO)
 @Entity
-@Data // generates Getters, Setters, toString, equals, and hashCode
 @Table(name="Messages")
 public class msgModel {
     @Id
