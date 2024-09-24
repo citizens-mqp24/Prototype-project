@@ -16,6 +16,8 @@ public class msgModel {
 
     @Column(nullable = false)
     private String msg_content;
+
+    @Column(nullable = false)
     private userModel author;
 
     public Long getId() {
@@ -25,6 +27,10 @@ public class msgModel {
     public msgModel(String cont, userModel auth){
         this.msg_content = cont;
         this.author = auth;
+    }
+
+    public String getContent() {
+        return msg_content;
     }
 
 
