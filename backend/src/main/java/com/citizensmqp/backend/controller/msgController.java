@@ -21,4 +21,20 @@ public class msgController {
     public List<msgModel> getAllMsgs() {
         return service.getMsgs();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<msgModel> getMsgById(@PathVariable Long id) {
+        Optional<msgModel> msg = service.getMsgById(id);
+        return msg.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public msgModel createMsg(@RequestBody msgModel msg) {
+        return service.saveMsg(msg);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteMsg(@PathVariable Long id) {
+        service.deleteMsg(id);
+    }
 }
