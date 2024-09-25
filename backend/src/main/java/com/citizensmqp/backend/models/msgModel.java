@@ -1,36 +1,36 @@
 package com.citizensmqp.backend.models;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 @Entity
 @Table(name="Message")
 public class msgModel {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long msg_ID;
+    private Long message_id;
 
     @Column(nullable = false)
-    private String msg_content;
+    private String message_text;
 
     @OneToOne(cascade=CascadeType.ALL)
-    private userModel author;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    private userModel user_id;
 
     public Long getId() {
-        return msg_ID;
+        return message_id;
     }
 
     public msgModel(String cont, userModel auth){
-        this.msg_content = cont;
-        this.author = auth;
+        this.message_text = cont;
+        this.user_id = auth;
     }
 
     public msgModel(){
-        this.msg_content = "";
-        this.author = new userModel();
+        this.message_text = "";
+        this.user_id = new userModel();
     }
 
     public String getContent() {
-        return msg_content;
+        return message_text;
     }
 }
 
