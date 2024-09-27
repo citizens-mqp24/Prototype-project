@@ -28,6 +28,7 @@ public class msgController {
         return msg.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    //Calls method in msgService to create new message in db
     @PostMapping
     public void createMsg(@RequestBody msgModel msg) {
         service.saveMsg(msg);
