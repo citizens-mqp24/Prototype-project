@@ -11,9 +11,11 @@ public class msgModel {
     @Column(nullable = false)
     private String message_text;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private userModel user_id;
+
+
 
     public Long getId() {
         return message_id;
