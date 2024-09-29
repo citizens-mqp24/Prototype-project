@@ -1,12 +1,15 @@
 package com.citizensmqp.backend.controller;
 
 import com.citizensmqp.backend.ValueObjects.googleTokenResponseVO;
+import com.citizensmqp.backend.ValueObjects.googleUserInfoVO;
+import com.citizensmqp.backend.services.userService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -22,6 +25,9 @@ import static java.lang.Integer.parseInt;
 @RequiredArgsConstructor
 @Slf4j
 public class authController {
+
+    private final userService us;
+
     @Value("${OAUTH2_CLIENT_ID}")
     String clientId;
 
@@ -82,5 +88,15 @@ public class authController {
         response.sendRedirect(homepageUrl);
     }
 
+    @GetMapping("/logout")
+    public void logout(HttpServletResponse response) throws IOException {
+        Cookie authCookie = new Cookie("access_token",  "");
+        authCookie.setHttpOnly(true);
+        authCookie.setSecure(true);
+        authCookie.setPath("/");
+        authCookie.setMaxAge(1);
+        response.addCookie(authCookie);
+        response.sendRedirect(homepageUrl);
+    }
 
 }
