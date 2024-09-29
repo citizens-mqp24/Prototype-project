@@ -9,7 +9,7 @@ public class googleUserInfoVO {
     public String id;
     public String picture;
     public String family_name;
-    public boolean verified;
+    public boolean verified_email;
 
     @Override
     public String toString() {

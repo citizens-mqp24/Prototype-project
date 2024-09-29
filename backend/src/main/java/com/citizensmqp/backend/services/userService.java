@@ -28,12 +28,33 @@ public class userService {
         return repository.findById(id);
     }
 
+    public Optional<userModel> getUserByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+
     public userModel saveUser(userModel user) {
         return repository.save(user);
     }
 
     public void deleteUser(Long id) {
         repository.deleteById(id);
+    }
+
+    public void createNewUser(String token) throws UnauthorizedException  {
+        googleUserInfoVO userInfo = this.fetchUserInfo(token);
+        Optional<userModel> existingUser = this.getUserByEmail(userInfo.email);
+
+        if (existingUser.isPresent()) {
+            return;
+        }
+
+        userModel user = new userModel();
+        user.setEmail(userInfo.email);
+        user.setName(userInfo.name);
+        user.setPicture(userInfo.picture);
+
+        repository.save(user);
     }
 
     public googleUserInfoVO fetchUserInfo(String accessToken) throws UnauthorizedException {
@@ -44,7 +65,12 @@ public class userService {
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 
         URI userInfoUri = URI.create("https://www.googleapis.com/oauth2/v2/userinfo");
-
+        ResponseEntity<String> test = restTemplate.exchange(
+                userInfoUri,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class
+        );
         ResponseEntity<googleUserInfoVO> responseEntity = restTemplate.exchange(
                 userInfoUri,
                 HttpMethod.GET,

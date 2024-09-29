@@ -6,7 +6,9 @@ drop table if exists Test;
 
 CREATE TABLE User (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    EMAIL TEXT NOT NULL UNIQUE,
+    PICTURE TEXT NOT NULL
 );
 
 CREATE TABLE Message (
@@ -25,9 +27,9 @@ insert into Test values (123);
 insert into Test values (9000000);
 insert into Test values (456);
 
-insert into User (name) values ('Alice');
-INSERT INTO User (name) VALUES ('Bob');
-INSERT INTO User (name) VALUES ('Charlie');
+insert into User (name,EMAIL,PICTURE) values ('Alice','Alice@gmail.com','');
+INSERT INTO User (name,EMAIL,PICTURE)VALUES ('Bob','Bob@gmail.com','');
+INSERT INTO User (name,EMAIL,PICTURE) VALUES ('Charlie','Charlie@gmail.com','');
 
 INSERT INTO Message (user_id, message_text) VALUES (1, 'Hello, this is Alice!');
 INSERT INTO Message (user_id, message_text) VALUES (2, 'Hey Alice, this is Bob.');

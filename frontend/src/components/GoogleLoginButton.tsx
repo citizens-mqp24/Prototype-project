@@ -13,7 +13,6 @@ export default function GoogleLoginButton() {
             </div>
         )
     } else {
-        //todo add logic
         return <a href={"/api/auth/logout"}>logout</a>
     }
 }

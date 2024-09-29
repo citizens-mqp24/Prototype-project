@@ -44,6 +44,8 @@ public class authController {
     String tokenUri = "https://oauth2.googleapis.com/token";
     String grantType = "authorization_code";
 
+    private final userService userService;
+
     @GetMapping()
     public void oauthLogin(HttpServletResponse response) throws IOException {
         String authorizationEndpoint = "https://accounts.google.com/o/oauth2/auth";
@@ -57,7 +59,7 @@ public class authController {
     }
 
     @GetMapping("/callback")
-    public void handleOAuth2Callback(@RequestParam(name = "code") String authorizationCode,HttpServletResponse response) throws IOException {
+    public void handleOAuth2Callback(@RequestParam(name = "code") String authorizationCode,HttpServletResponse response) throws IOException,UnauthorizedException {
         RestTemplate restTemplate = new RestTemplate();
 
         Map<String, String> tokenRequest = new HashMap<>();
@@ -75,8 +77,7 @@ public class authController {
         }
         System.out.println("access token: " + tokenResponse.access_token);
 
-        //TODO possibly save id token
-        //TODO possibly setup new user
+        userService.createNewUser(tokenResponse.access_token);
 
         Cookie authCookie = new Cookie("access_token",  tokenResponse.access_token);
         authCookie.setHttpOnly(true);
