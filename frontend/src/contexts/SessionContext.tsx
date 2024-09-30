@@ -39,7 +39,11 @@ export function SessionContextProvider (props: { children: React.ReactNode }) {
                 method: "POST",
             })
             if (res.status === 200) {
+                console.log("loged in")
                 setHasLoggedIn(true);
+            } else {
+                console.log("shouldent be logged in")
+                setHasLoggedIn(false)
             }
             return res.json()
         }
