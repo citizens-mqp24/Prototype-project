@@ -8,8 +8,8 @@ interface Message {
 
 function useFetchData(apiUrl: string) {
     const [data, setData] = useState<Message[]>([]); // Holds the fetched data
-    const [loading, setLoading] = useState<boolean>(true); // Tracks loading state
-    const [error, setError] = useState<string | null>(null); // Tracks errors
+    const [loading, setLoading] = useState<boolean>(true); // Tracks whether loading or not
+    const [error, setError] = useState<string | null>(null); // Holds errors
 
     useEffect(() => {
         const fetchData = async () => {
@@ -20,10 +20,15 @@ function useFetchData(apiUrl: string) {
                 }
                 const result = await response.json();
                 setData(result);
-            } catch (err: any) {
-                setError(err.message);
+            } catch (error) {
+                if (error instanceof Error) {
+                    console.error(error.message);
+                    setError(error.message); //if there are any errors will store errors
+                } else {
+                    console.error("An unknown error occurred.");
+                }
             } finally {
-                setLoading(false);
+                setLoading(false); //Will set loading state to not loading anymore regardless of errors or no errors
             }
         };
 
