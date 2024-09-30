@@ -26,6 +26,7 @@ function useFetchData(apiUrl: string) {
                     setError(error.message); //if there are any errors will store errors
                 } else {
                     console.error("An unknown error occurred.");
+                    console.error(error);
                 }
             } finally {
                 setLoading(false); //Will set loading state to not loading anymore regardless of errors or no errors
