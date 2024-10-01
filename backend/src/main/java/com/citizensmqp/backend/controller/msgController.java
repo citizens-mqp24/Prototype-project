@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.LongSummaryStatistics;
 import java.util.Optional;
 
 @RestController
@@ -32,5 +33,14 @@ public class msgController {
     @PostMapping
     public void createMsg(@RequestBody msgModel msg) {
         service.saveMsg(msg);
+    }
+
+    @PostMapping("/likes/{id}")
+    public msgModel likesMsg(@PathVariable Long msgId) {
+        Optional <msgModel> msg = service.getMsgById(msgId);
+        if (msg.isPresent()) {
+           return service.likeMsg(msg.get());
+        }
+        return null;
     }
 }

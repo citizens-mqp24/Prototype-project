@@ -1,5 +1,7 @@
 package com.citizensmqp.backend.models;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="Message")
@@ -10,6 +12,11 @@ public class msgModel {
 
     @Column(nullable = false)
     private String message_text;
+
+    @Getter
+    @Setter
+    @Column(nullable = false)
+    private Long likes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
