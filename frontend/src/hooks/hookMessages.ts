@@ -32,11 +32,10 @@ function useFetchData(apiUrl: string) {
                 setLoading(false); //Will set loading state to not loading anymore regardless of errors or no errors
             }
         };
-
-        fetchData();
+        fetchData(); //remind myself intracacies of promises
     }, [apiUrl]);
 
-    return { data, loading, error };
+    return {data, loading, error};
 }
 
 export default useFetchData;
