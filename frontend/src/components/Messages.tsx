@@ -17,7 +17,7 @@ export default function Messages(){
                 <ul>
                     {data.map(item => (
                         <li key={item.message_id}>
-                            {item.message_text}
+                            <strong>{item.user.name}:</strong> {item.message_text}
                         </li>
                     ))}
                 </ul>
