@@ -40,7 +40,7 @@ public class msgModel {
         this.user = new userModel();
     }
 
-    public String getContent() {
+    public String getMessage_text() {
         return message_text;
     }
 }
