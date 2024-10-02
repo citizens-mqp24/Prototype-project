@@ -18,9 +18,11 @@ public class msgModel {
     @Column(nullable = false)
     private Long likes;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-    private userModel user_id;
+    private userModel user;
 
 
 
@@ -30,12 +32,12 @@ public class msgModel {
 
     public msgModel(String cont, userModel auth){
         this.message_text = cont;
-        this.user_id = auth;
+        this.user = auth;
     }
 
     public msgModel(){
         this.message_text = "";
-        this.user_id = new userModel();
+        this.user = new userModel();
     }
 
     public String getContent() {

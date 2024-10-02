@@ -2,7 +2,8 @@ package com.citizensmqp.backend.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+@Getter
+@Setter
 @Entity
 @Data // generates Getters, Setters, toString, equals, and hashCode
 @NoArgsConstructor
