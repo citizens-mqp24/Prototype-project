@@ -16,7 +16,7 @@ export default function Messages(){
             <div>
                 <ul>
                     {data.map(item => (
-                        <li key={item.id}>
+                        <li key={item.message_id}>
                             {item.message_text}
                         </li>
                     ))}

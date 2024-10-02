@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 
 interface Message {
-    id: number;
+    message_id: number;
     user_id: number;
     message_text: string;
 }

@@ -24,9 +24,7 @@ public class msgModel {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private userModel user;
 
-
-
-    public Long getId() {
+    public Long getMessage_id() {
         return message_id;
     }
 
