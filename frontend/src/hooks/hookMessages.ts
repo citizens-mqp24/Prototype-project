@@ -1,14 +1,17 @@
 import {useEffect, useState} from 'react';
 
-interface Message {
-    message_id: number;
+export interface Message {
+    message_id?: number;
     user: User;
+    likes?:number;
     message_text: string;
 }
 
-interface User {
-    user_id: number;
-    name: string;
+export interface User {
+    user_id?: number;
+    name?: string;
+    picture?: string;
+    email?: string;
 }
 
 function useFetchData(apiUrl: string) {

@@ -3,7 +3,7 @@ import {createContext, useContext, useState} from "react";
 
 
 interface UserInfo {
-    id: number;
+    id: string;
     name: string;
     email: string;
     verified: boolean;

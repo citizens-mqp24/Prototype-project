@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.LongSummaryStatistics;
 import java.util.Optional;
 
 @RestController
@@ -31,8 +30,8 @@ public class msgController {
 
     //Calls method in msgService to create new message in db
     @PostMapping
-    public void createMsg(@RequestBody msgModel msg) {
-        service.saveMsg(msg);
+    public void createMsg(@RequestBody msgModel msg) throws Exception {
+        service.newMessage(msg);
     }
 
     @PostMapping("/likes/{id}")

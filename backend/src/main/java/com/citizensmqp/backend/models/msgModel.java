@@ -6,8 +6,9 @@ import lombok.Setter;
 @Entity
 @Table(name="Message")
 public class msgModel {
+
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long message_id;
 
     @Column(nullable = false)

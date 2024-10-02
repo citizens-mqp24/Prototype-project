@@ -1,6 +1,7 @@
 package com.citizensmqp.backend.services;
 
 import com.citizensmqp.backend.models.msgModel;
+import com.citizensmqp.backend.models.userModel;
 import com.citizensmqp.backend.repositorys.msgRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class msgService {
     private final msgRepository msgRepo;
+    private final userService userService;
 
-    public void saveMsg(msgModel msg){
+    public void newMessage(msgModel msg) throws Exception {
+        Optional<userModel> user = userService.getUserByEmail(msg.getUser().getEmail());
+        if(user.isEmpty()) {
+            throw new Exception(""); //TODO make custom excption
+        }
+        msg.setUser(user.get());
+        msg.setLikes(0L);
         msgRepo.save(msg);
     }
 
