@@ -1,6 +1,7 @@
 package com.citizensmqp.backend.controller;
 
 import com.citizensmqp.backend.ValueObjects.googleUserInfoVO;
+import com.citizensmqp.backend.models.msgModel;
 import com.citizensmqp.backend.models.testModel;
 import com.citizensmqp.backend.models.userModel;
 import com.citizensmqp.backend.services.exampleService;
@@ -32,6 +33,11 @@ public class userController {
     @GetMapping
     public List<userModel> getAllUsers() {
         return service.getAll();
+    }
+
+    @GetMapping("/likes/{id}")
+    public List<msgModel> getLikes(@PathVariable Long id) {
+        return service.getLikes(id);
     }
 
     @GetMapping("/{id}")

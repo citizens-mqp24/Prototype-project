@@ -3,6 +3,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Table(name="Message")
 public class msgModel {
@@ -24,6 +26,19 @@ public class msgModel {
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private userModel user;
+
+    @Getter
+    @Setter
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "likes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "message_id"))
+    Set<userModel> usersLiked;
+
+    public void addLike(userModel user) {
+        usersLiked.add(user);
+    }
 
     public Long getMessage_id() {
         return message_id;

@@ -31,8 +31,10 @@ public class msgService {
 
     public Optional<msgModel> getMsgById(long id){return(msgRepo.findById(id));}
 
-    public msgModel likeMsg(msgModel msg) {
+    public msgModel likeMsg(msgModel msg,userModel usr) {
+        msg.addLike(usr);
         msg.setLikes(msg.getLikes()+1);
+
         return msgRepo.save(msg);
 
     }

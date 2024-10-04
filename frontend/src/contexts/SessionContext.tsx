@@ -2,7 +2,7 @@ import {useQuery} from "@tanstack/react-query";
 import {createContext, useContext, useState} from "react";
 
 
-interface UserInfo {
+interface GoogleUserInfo {
     id: string;
     name: string;
     email: string;
@@ -11,8 +11,10 @@ interface UserInfo {
     picture:string
 }
 
+
+
 interface session {
-    info:UserInfo | undefined
+    info:GoogleUserInfo | undefined
     hasLoggedIn: boolean
     setHasLoggedIn: (hasLoggedIn: boolean) => void,
     isError: boolean,
@@ -32,7 +34,7 @@ export const useSession = () => useContext(SessionContext);
 
 export function SessionContextProvider (props: { children: React.ReactNode }) {
     const [hasLoggedIn, setHasLoggedIn] = useState(false);
-    const {isError,isPending,data,error} = useQuery<UserInfo>({
+    const {isError,isPending,data,error} = useQuery<GoogleUserInfo>({
         queryKey: ["user info",hasLoggedIn],
         queryFn: async () => {
             const res = await fetch('/api/users/info',{

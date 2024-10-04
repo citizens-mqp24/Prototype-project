@@ -1,7 +1,11 @@
 package com.citizensmqp.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -22,4 +26,15 @@ public class userModel {
 
     @Column(nullable = false)
     private String picture;
+
+    @Getter
+    @Setter
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "likes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "message_id")
+    )
+    Set<msgModel> likes;
 }

@@ -1,7 +1,9 @@
 package com.citizensmqp.backend.controller;
 
 import com.citizensmqp.backend.models.msgModel;
+import com.citizensmqp.backend.models.userModel;
 import com.citizensmqp.backend.services.msgService;
+import com.citizensmqp.backend.services.userService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +18,12 @@ import java.util.Optional;
 @Slf4j
 public class msgController {
     private final msgService service;
+    private final userService userService;
 
     @GetMapping
     public List<msgModel> getAllMsgs() {
-        return service.getMsgs();
+        List<msgModel> msgs = service.getMsgs();
+        return msgs;
     }
 
     @GetMapping("/{id}")
@@ -34,12 +38,13 @@ public class msgController {
         service.newMessage(msg);
     }
 
-    @PostMapping("/likes/{id}")
-    public msgModel likesMsg(@PathVariable Long msgId) {
-        Optional <msgModel> msg = service.getMsgById(msgId);
-        if (msg.isPresent()) {
-           return service.likeMsg(msg.get());
+    @PostMapping("/likes/{msgId}")
+    public msgModel likesMsg(@PathVariable Long msgId,@RequestBody userModel usr) {
+        Optional<userModel> fullUser = userService.getUserByEmail(usr.getEmail());
+        if (fullUser.isEmpty()) {
+            return null;
         }
-        return null;
+        Optional <msgModel> msg = service.getMsgById(msgId);
+        return msg.map(msgModel -> service.likeMsg(msgModel, fullUser.get())).orElse(null);
     }
 }

@@ -5,6 +5,7 @@ export interface Message {
     user: User;
     likes?:number;
     message_text: string;
+    usersLiked?:User[]
 }
 
 export interface User {

@@ -26,10 +26,10 @@ export default function MessageCreationPopup() {
     }
 
     return(
-        <div>
-            <input className={"border border-gray-400"} value={msgTxt} onChange={(e) => {setMsgTxt(e.target.value)}}/>
+        <div className={"bg-blue-300 rounded-2xl w-full xl:w-1/2 h-fit flex flex-col gap-5 p-10"}>
+            <textarea className={"border bg-blue-300 h-28 resize-none p-2 text-white  rounded-2xl"} value={msgTxt} onChange={(e) => {setMsgTxt(e.target.value)}}/>
 
-            <button onClick={() => saveMessage().then()}>Submit</button>
+            <button className={"border-2 rounded-2xl font-bold text-white bg-blue-700 w-full md:w-fit md:place-self-end p-2 md:px-10"} onClick={() => saveMessage().then()}>Share</button>
         </div>
     )
 }
