@@ -1,9 +1,10 @@
 import useFetchData from '../hooks/hookMessages.ts';
+import MessageDisplay from "../components/MessageDisplay.tsx";
+import MessageCreationPopup from "../components/MessageCreationPopup.tsx";
 
-export default function Messages(){
+export default function MessagesRoute(){
         const apiUrl = 'http://localhost:8080/api/msg'; // URL to your API
-        const { data, loading, error } = useFetchData(apiUrl);
-
+        const { data, loading, error,optimisticUpdate } = useFetchData(apiUrl);
         if (loading) {
             return <div>Loading...</div>;
         }
@@ -12,15 +13,15 @@ export default function Messages(){
             return <div>Error: {error}</div>;
         }
 
+
         return (
             <div>
                 <ul>
                     {data.map(item => (
-                        <li key={item.message_id}>
-                            <strong>{item.user.name}:</strong> {item.message_text}
-                        </li>
+                        <MessageDisplay message={item}></MessageDisplay>
                     ))}
                 </ul>
+                <MessageCreationPopup onSend={optimisticUpdate}></MessageCreationPopup>
             </div>
         );
 }

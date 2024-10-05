@@ -2,7 +2,13 @@ package com.citizensmqp.backend.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
 
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
 @Table(name="Message")
 public class msgModel {
@@ -14,16 +20,24 @@ public class msgModel {
     @Column(nullable = false)
     private String message_text;
 
-    @Getter
-    @Setter
+
     @Column(nullable = false)
     private Long likes;
 
-    @Getter
-    @Setter
+
     @ManyToOne()
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name = "user_id",
+            referencedColumnName = "user_id"
+            , nullable = false)
     private userModel user;
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "likes",
+            joinColumns = @JoinColumn(name = "message_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    Set<userModel> usersLiked;
 
     public Long getMessage_id() {
         return message_id;
@@ -41,6 +55,12 @@ public class msgModel {
 
     public String getMessage_text() {
         return message_text;
+    }
+
+    public void addLike(userModel usr) {
+        Set<userModel> savingSet = new HashSet<>();
+        savingSet.add(usr);
+        this.usersLiked = savingSet;
     }
 }
 

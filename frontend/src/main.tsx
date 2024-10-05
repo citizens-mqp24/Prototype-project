@@ -6,12 +6,14 @@ import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} fr
 import TestRoute from "./routes/TestRoute.tsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {SessionContextProvider} from "./contexts/SessionContext.tsx";
+import MessagesRoute from "./routes/MessagesRoute.tsx";
 
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<App />}>
-            <Route path={"/test"} element={<TestRoute></TestRoute>}></Route>
+            <Route path={""} element={<MessagesRoute/>}/>
+            <Route path={"/test"} element={<TestRoute></TestRoute>}/>
         </Route>
     )
 );

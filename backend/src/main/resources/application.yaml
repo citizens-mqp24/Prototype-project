@@ -1,4 +1,9 @@
 spring:
+  jpa:
+    open-in-view: false
+  mvc:
+    converters:
+      preferred-json-mapper: gson
   config:
     import: optional:file:.env[.properties]
   datasource:

@@ -2,6 +2,7 @@ package com.citizensmqp.backend.services;
 
 import com.citizensmqp.backend.ValueObjects.googleUserInfoVO;
 import com.citizensmqp.backend.controller.UnauthorizedException;
+import com.citizensmqp.backend.models.msgModel;
 import com.citizensmqp.backend.models.userModel;
 import com.citizensmqp.backend.repositorys.userRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,10 @@ public class userService {
 
     public Optional<userModel> getUserByEmail(String email) {
         return repository.findByEmail(email);
+    }
+
+    public Optional<userModel> getUserByEmailWithLikes(String email) {
+        return repository.findByEmailWithLikes(email);
     }
 
 
@@ -84,5 +89,9 @@ public class userService {
         }
         googleUserInfoVO userInfo = responseEntity.getBody();
         return userInfo;
+    }
+
+    public Optional<userModel> getLikes(long id) {
+        return repository.getUserWithLikes(id);
     }
 }

@@ -1,8 +1,9 @@
 import {useQuery} from "@tanstack/react-query";
 import {createContext, useContext, useState} from "react";
+import {User} from "../hooks/hookMessages.ts";
 
 
-interface UserInfo {
+interface GoogleUserInfo {
     id: string;
     name: string;
     email: string;
@@ -11,8 +12,15 @@ interface UserInfo {
     picture:string
 }
 
+interface SessionInfo {
+    googleInfo:GoogleUserInfo,
+    userInfo: User
+}
+
+
+
 interface session {
-    info:UserInfo | undefined
+    info:SessionInfo | undefined
     hasLoggedIn: boolean
     setHasLoggedIn: (hasLoggedIn: boolean) => void,
     isError: boolean,
@@ -32,10 +40,10 @@ export const useSession = () => useContext(SessionContext);
 
 export function SessionContextProvider (props: { children: React.ReactNode }) {
     const [hasLoggedIn, setHasLoggedIn] = useState(false);
-    const {isError,isPending,data,error} = useQuery<UserInfo>({
+    const {isError,isPending,data,error} = useQuery<SessionInfo>({
         queryKey: ["user info",hasLoggedIn],
         queryFn: async () => {
-            const res = await fetch('/api/users/info',{
+            const res = await fetch('/api/users/session',{
                 method: "POST",
             })
             if (res.status === 200) {
@@ -45,7 +53,9 @@ export function SessionContextProvider (props: { children: React.ReactNode }) {
                 console.log(res)
                 setHasLoggedIn(false)
             }
-            return res.json()
+            const sessionInfo:SessionInfo = await res.json()
+            console.log(sessionInfo)
+            return sessionInfo
         }
     })
 
