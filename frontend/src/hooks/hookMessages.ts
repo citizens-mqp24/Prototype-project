@@ -13,6 +13,7 @@ export interface User {
     name?: string;
     picture?: string;
     email?: string;
+    likes?: Message[]
 }
 
 function useFetchData(apiUrl: string) {

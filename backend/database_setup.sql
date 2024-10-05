@@ -1,9 +1,9 @@
 PRAGMA foreign_keys = ON;
 
+drop table if exists likes;
 drop table if exists Message;
 drop table if exists User;
 drop table if exists Test;
-drop table if exists likes;
 
 CREATE TABLE User (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,

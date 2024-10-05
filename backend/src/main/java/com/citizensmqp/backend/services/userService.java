@@ -33,6 +33,10 @@ public class userService {
         return repository.findByEmail(email);
     }
 
+    public Optional<userModel> getUserByEmailWithLikes(String email) {
+        return repository.findByEmailWithLikes(email);
+    }
+
 
     public userModel saveUser(userModel user) {
         return repository.save(user);
@@ -87,7 +91,7 @@ public class userService {
         return userInfo;
     }
 
-    public List<msgModel> getLikes(long id) {
-        return repository.getLikes(id);
+    public Optional<userModel> getLikes(long id) {
+        return repository.getUserWithLikes(id);
     }
 }

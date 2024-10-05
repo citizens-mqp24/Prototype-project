@@ -1,10 +1,9 @@
 package com.citizensmqp.backend.controller;
 
+import com.citizensmqp.backend.ValueObjects.SessionVO;
 import com.citizensmqp.backend.ValueObjects.googleUserInfoVO;
 import com.citizensmqp.backend.models.msgModel;
-import com.citizensmqp.backend.models.testModel;
 import com.citizensmqp.backend.models.userModel;
-import com.citizensmqp.backend.services.exampleService;
 import com.citizensmqp.backend.services.userService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,39 +19,40 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class userController {
-    private final userService service;
+    private final userService userService;
 
-    @PostMapping("/info")
-    public googleUserInfoVO getUserInfo(@CookieValue(value = "access_token") String access_token) throws UnsupportedEncodingException {
+    @PostMapping("/session")
+    public ResponseEntity<SessionVO> getUserInfo(@CookieValue(value = "access_token") String access_token) throws UnsupportedEncodingException {
         log.info("get user info");
         log.info(access_token);
-        googleUserInfoVO userInfo = service.fetchUserInfo(access_token);
-        return userInfo;
+        googleUserInfoVO userInfo = userService.fetchUserInfo(access_token);
+        SessionVO session = new SessionVO();
+        Optional<userModel> dbUser = userService.getUserByEmailWithLikes(userInfo.email);
+        if(dbUser.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        session.makeSessionWithLikes(userInfo,dbUser.get());
+        return ResponseEntity.ok(session);
     }
 
     @GetMapping
     public List<userModel> getAllUsers() {
-        return service.getAll();
-    }
-
-    @GetMapping("/likes/{id}")
-    public List<msgModel> getLikes(@PathVariable Long id) {
-        return service.getLikes(id);
+        return userService.getAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<userModel> getUserById(@PathVariable Long id) {
-        Optional<userModel> user = service.getUserById(id);
+        Optional<userModel> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public userModel createUser(@RequestBody userModel user) {
-        return service.saveUser(user);
+        return userService.saveUser(user);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
-        service.deleteUser(id);
+        userService.deleteUser(id);
     }
 }

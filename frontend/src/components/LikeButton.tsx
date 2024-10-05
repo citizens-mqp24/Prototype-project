@@ -7,22 +7,31 @@ export default function LikeButton(props:{msg:Message}) {
         if ((session.hasLoggedIn == false && session.info == undefined) || messageId == undefined) {
             return
         }
+        console.log(session)
         fetch(`/api/msg/likes/${messageId}`, {
             method: "POST",
             headers: {
                 "Content-type": "Application/Json"
             },
             body: JSON.stringify({
-                email: session.info?.email
+                email: session.info?.userInfo.email
             })
         }).then()
     }
-    if(session.hasLoggedIn == false) {
+    console.log(session)
+    if(session.hasLoggedIn == false && session.info == undefined) {
         return;
     }
-    if (props.msg.usersLiked != undefined) {
-        const userEmails = props.msg.usersLiked.map(usr => usr.email)
-        if(userEmails.includes(session.info?.email)) {
+    if(props.msg.message_id == undefined) {
+        return
+    }
+    if (session.info?.userInfo == undefined) {
+        return
+    }
+    if (session.info?.userInfo.likes != undefined) {
+        const messageIds:(number | undefined)[] = session.info.userInfo.likes
+            .map((likedMsg) => likedMsg.message_id);
+        if (messageIds.includes(props.msg.message_id)) {
             return <div
                            className={"border p-3 rounded-2xl bg-blue-200"}>Like</div>
         }

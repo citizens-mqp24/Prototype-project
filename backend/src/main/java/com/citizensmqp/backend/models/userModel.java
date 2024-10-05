@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -37,4 +38,8 @@ public class userModel {
             inverseJoinColumns = @JoinColumn(name = "message_id")
     )
     Set<msgModel> likes;
+
+    public void addLike(msgModel msg) {
+        likes.add(msg);
+    }
 }
