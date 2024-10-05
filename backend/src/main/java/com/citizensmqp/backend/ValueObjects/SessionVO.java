@@ -27,11 +27,7 @@ public class SessionVO {
     }
 
     public SessionVO makeSessionWithoutLikes(googleUserInfoVO googleInfo, userModel user) {
-        userVO userInfo = new userVO();
-        userInfo.setUser_id(user.getUser_id());
-        userInfo.setName(user.getName());
-        userInfo.setEmail(user.getEmail());
-        userInfo.setPicture(user.getPicture());
+        userVO userInfo = new userVO().setupUserWithoutLikes(user);
         this.setUserInfo(userInfo);
         this.setGoogleInfo(googleInfo);
         return this;

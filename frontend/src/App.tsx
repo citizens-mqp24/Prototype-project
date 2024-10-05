@@ -3,8 +3,6 @@ import {Outlet} from "react-router-dom";
 import GoogleLoginButton from "./components/GoogleLoginButton.tsx";
 import ProfilePicture from "./components/profilePicture.tsx";
 import {useSession} from "./contexts/SessionContext.tsx";
-import Messages from "./components/Messages.tsx";
-import MessageCreationPopup from "./components/MessageCreationPopup.tsx";
 
 function App() {
     const session = useSession();
@@ -17,9 +15,6 @@ function App() {
             <GoogleLoginButton/>
         </div>
         <div className="bg-blue-500 "> hello world</div>
-        <Messages/>
-        <MessageCreationPopup></MessageCreationPopup>
-
         <Outlet />
     </div>
   )

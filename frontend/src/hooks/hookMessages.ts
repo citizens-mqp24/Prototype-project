@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 export interface Message {
     message_id?: number;
@@ -20,6 +20,7 @@ function useFetchData(apiUrl: string) {
     const [data, setData] = useState<Message[]>([]); // Holds the fetched data
     const [loading, setLoading] = useState<boolean>(true); // Tracks whether loading or not
     const [error, setError] = useState<string | null>(null); // Holds errors
+    const optimisticMessagesSent = useRef(-1);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,7 +46,13 @@ function useFetchData(apiUrl: string) {
         fetchData();
     }, [apiUrl]);
 
-    return {data, loading, error};
+    function optimisticUpdate(msg:Message) {
+        msg.message_id = optimisticMessagesSent.current; // we set it to -1 so it has a key and that key will never conflict
+        optimisticMessagesSent.current +=1;
+        setData([...data,msg]);
+    }
+
+    return {data, loading, error,optimisticUpdate};
 }
 
 export default useFetchData;

@@ -1,9 +1,10 @@
 import {useState} from "react";
-import {Message} from "../hooks/hookMessages.ts";
 import {useSession} from "../contexts/SessionContext.tsx";
+import {Message} from "../hooks/hookMessages.ts";
 
-export default function MessageCreationPopup() {
+export default function MessageCreationPopup(props:{onSend:(msg:Message) => void }) {
     const [msgTxt,setMsgTxt] = useState("");
+
     const session = useSession()
     async function saveMessage() {
         if(session.info == undefined) {
@@ -12,10 +13,12 @@ export default function MessageCreationPopup() {
         const msg:Message = {
             message_text:msgTxt,
             user: {
-                email: session.info.email,
-            }
+                name: session.info.userInfo.name,
+                email: session.info.userInfo.email,
+            },
+            likes:0
         }
-
+        props.onSend(msg);
         await fetch("/api/msg",{
             method:"POST",
             headers: {

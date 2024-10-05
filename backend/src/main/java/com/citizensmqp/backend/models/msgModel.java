@@ -7,6 +7,8 @@ import org.hibernate.annotations.Fetch;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name="Message")
 public class msgModel {
@@ -18,21 +20,18 @@ public class msgModel {
     @Column(nullable = false)
     private String message_text;
 
-    @Getter
-    @Setter
+
     @Column(nullable = false)
     private Long likes;
 
-    @Getter
-    @Setter
+
     @ManyToOne()
     @JoinColumn(name = "user_id",
             referencedColumnName = "user_id"
             , nullable = false)
     private userModel user;
 
-    @Getter
-    @Setter
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "likes",

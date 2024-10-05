@@ -19,14 +19,14 @@ public class msgVO {
 
     private Long likes;
 
-    private userModel user;
+    private userVO user;
 
     Set<userModel> usersLiked;
 
     //this is for lazy fetching that way we dont always need to get all the liked users cause with alot of users it could get slow
     public msgVO mapMessageNoUsersLiked(msgModel msg) {
         this.setMessage_id(msg.getMessage_id());
-        this.setUser(msg.getUser());
+        this.setUser(new userVO().setupUserWithoutLikes(msg.getUser()));
         this.setLikes(msg.getLikes());
         this.setMessage_text(msg.getMessage_text());
         return this;
@@ -36,7 +36,7 @@ public class msgVO {
         this.setMessage_id(msg.getMessage_id());
         this.setUsersLiked(msg.getUsersLiked());
         this.setLikes(msg.getLikes());
-        this.setUser(msg.getUser());
+        this.setUser(new userVO().setupUserWithoutLikes(msg.getUser()));
         this.setMessage_text(msg.getMessage_text());
         return this;
     }

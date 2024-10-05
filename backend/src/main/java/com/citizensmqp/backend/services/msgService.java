@@ -1,5 +1,6 @@
 package com.citizensmqp.backend.services;
 
+import com.citizensmqp.backend.ValueObjects.msgVO;
 import com.citizensmqp.backend.models.msgModel;
 import com.citizensmqp.backend.models.userModel;
 import com.citizensmqp.backend.repositorys.msgRepository;
@@ -34,6 +35,7 @@ public class msgService {
 
 
     public msgModel likeMsg(msgModel msg, userModel usr) {
+        //TODO add prevention for if the user has already liked the message
         msg.addLike(usr);
         msg.setLikes(msg.getLikes()+1);
 

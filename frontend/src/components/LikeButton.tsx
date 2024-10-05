@@ -1,12 +1,18 @@
 import {useSession} from "../contexts/SessionContext.tsx";
 import {Message} from "../hooks/hookMessages.ts";
+import {useState} from "react";
 
-export default function LikeButton(props:{msg:Message}) {
+export default function LikeButton(props:{msg:Message,onLike?:() => void}) {
     const session = useSession();
+    const [hasLiked,setHasLiked] = useState(false);
     function likePost(messageId :number | undefined) {
         if ((session.hasLoggedIn == false && session.info == undefined) || messageId == undefined) {
             return
         }
+        if(props.onLike !== undefined) {
+            props.onLike() // used for optimistic updates
+        }
+        setHasLiked(true);
         console.log(session)
         fetch(`/api/msg/likes/${messageId}`, {
             method: "POST",
@@ -31,7 +37,7 @@ export default function LikeButton(props:{msg:Message}) {
     if (session.info?.userInfo.likes != undefined) {
         const messageIds:(number | undefined)[] = session.info.userInfo.likes
             .map((likedMsg) => likedMsg.message_id);
-        if (messageIds.includes(props.msg.message_id)) {
+        if (messageIds.includes(props.msg.message_id) || hasLiked===true) {
             return <div
                            className={"border p-3 rounded-2xl bg-blue-200"}>Like</div>
         }
