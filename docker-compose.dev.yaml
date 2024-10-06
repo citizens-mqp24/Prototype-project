@@ -1,0 +1,42 @@
+version: '3'
+services:
+  reverse-proxy:
+    image: traefik:v3.1
+    command:
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:3000"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+  frontend:
+    build: ./frontend
+    labels:
+      - "traefik.http.routers.frontend.entrypoints=web"
+      - "traefik.http.routers.frontend.rule=Host(`nickaleslie.dev`)"
+    env_file:
+      - "./frontend/.env"
+  backend:
+    build: ./backend
+    expose:
+      - 8080
+    volumes:
+      - ./database.db:/app/database.db
+    env_file: "./backend/.env"
+#  datadog:
+#    image: gcr.io/datadoghq/agent:latest
+#    pid: host
+#    environment:
+#     - DD_SITE=datadoghq.com
+#     - DD_OTLP_CONFIG_RECEIVER_PROTOCOLS_GRPC_ENDPOIN=0.0.0.0:4317
+#     - DD_OTLP_CONFIG_RECEIVER_PROTOCOLS_HTTP_ENDPOINT=0.0.0.0:4318
+#    volumes:
+#     - /var/run/docker.sock:/var/run/docker.sock
+#     - /proc/:/host/proc/:ro
+#     - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+#    expose:
+#      - 4317
+#      - 4318
+#    env_file: ".env"

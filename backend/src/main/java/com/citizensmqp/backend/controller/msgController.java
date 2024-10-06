@@ -6,6 +6,9 @@ import com.citizensmqp.backend.models.msgModel;
 import com.citizensmqp.backend.models.userModel;
 import com.citizensmqp.backend.services.msgService;
 import com.citizensmqp.backend.services.userService;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.datadog.DatadogMeterRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +24,17 @@ import java.util.Optional;
 public class msgController {
     private final msgService msgService;
     private final userService userService;
+    private final DatadogMeterRegistry ddRegistry;
 
+    @Timed
     @GetMapping
     public List<msgVO> getAllMsgs() {
+        ddRegistry.counter("msgs.requested").increment();
         List<msgVO> msgs = msgService.getMsgs().stream().map(msgModel -> new msgVO().mapMessageCore(msgModel)).toList();
         return msgs;
     }
 
+    @Timed
     @GetMapping("/{id}")
     public ResponseEntity<msgVO> getMsgById(@PathVariable Long id) {
         Optional<msgVO> msg = msgService.getMessageByIdFull(id).map(msgModel -> new msgVO().mapMessageCore(msgModel).mapLikedUsers(msgModel).mapComments(msgModel));
@@ -35,18 +42,22 @@ public class msgController {
     }
 
     //Calls method in msgService to create new message in db
+    @Timed
     @PostMapping
     public ResponseEntity<String> createMsg(@RequestBody msgModel msg) throws Exception {
         msgService.newMessage(msg);
+        ddRegistry.counter("msgs.created").increment();
         return ResponseEntity.ok("created message");
     }
 
+    @Timed
     @PostMapping("/comment/{id}")
     public ResponseEntity<String> createMsg(@RequestBody msgModel msg,@PathVariable Long id) throws Exception {
         msgService.addComment(id,msg);
         return ResponseEntity.ok("created message");
     }
 
+    @Timed
     @PostMapping("/likes/{msgId}")
     public ResponseEntity<msgVO> likesMsg(@PathVariable Long msgId,@RequestBody userVO usr) {
         Optional<userModel> fullUser = userService.getUserByEmailWithLikes(usr.getEmail());
