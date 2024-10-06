@@ -1,6 +1,5 @@
 package com.citizensmqp.backend;
 
-import com.citizensmqp.backend.repositorys.exampleRepository;
 import com.citizensmqp.backend.services.exampleService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,23 +15,4 @@ import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-public class ExampleServiceTest {
 
-    @Mock
-    private exampleRepository repository;
-
-    @InjectMocks
-    private exampleService es;
-
-    @Test
-    public void testGetALl() {
-        // db clean and setup code
-        List<String> expectsList = new LinkedList<>();
-        expectsList.add("A");
-        expectsList.add("B");
-        expectsList.add("C");
-
-        assertIterableEquals(es.GetAll(),expectsList);
-    }
-}
