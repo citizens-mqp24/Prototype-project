@@ -28,6 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'io.micrometer:micrometer-registry-datadog:latest.release'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.xerial:sqlite-jdbc:3.46.1.0'
     implementation 'org.hibernate.orm:hibernate-community-dialects'
     compileOnly 'org.projectlombok:lombok'

@@ -3,6 +3,8 @@ package com.citizensmqp.backend.controller;
 import com.citizensmqp.backend.ValueObjects.googleTokenResponseVO;
 import com.citizensmqp.backend.ValueObjects.googleUserInfoVO;
 import com.citizensmqp.backend.services.userService;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.datadog.DatadogMeterRegistry;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,7 @@ public class authController {
     String grantType = "authorization_code";
 
     private final userService userService;
+    private final DatadogMeterRegistry ddRegistry;
 
     @GetMapping()
     public void oauthLogin(HttpServletResponse response) throws IOException {
@@ -57,7 +60,7 @@ public class authController {
 
         response.sendRedirect(authorizationUrl);
     }
-
+    @Timed
     @GetMapping("/callback")
     public void handleOAuth2Callback(@RequestParam(name = "code") String authorizationCode,HttpServletResponse response) throws IOException,UnauthorizedException {
         RestTemplate restTemplate = new RestTemplate();
@@ -76,7 +79,7 @@ public class authController {
             response.sendRedirect(homepageUrl);
         }
         System.out.println("access token: " + tokenResponse.access_token);
-
+        ddRegistry.counter("usrs.loggedin").increment();
         userService.createNewUser(tokenResponse.access_token);
 
         Cookie authCookie = new Cookie("access_token",  tokenResponse.access_token);

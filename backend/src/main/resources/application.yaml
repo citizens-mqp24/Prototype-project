@@ -11,3 +11,21 @@ spring:
     password: ${DB_PASSWORD:password}
     url: ${DB_URL:url}
     username: ${DB_USERNAME:username}
+management:
+  endpoint:
+    metrics:
+      enabled: true
+  metrics:
+    tags:
+      application: "prototype"
+  datadog:
+    metrics:
+      export:
+        api-key: ${DATADOG_API_KEY}
+        enabled: true
+        step: 10s
+        uri: "https://api.us5.datadoghq.com"
+
+logging:
+  level:
+    root: info
