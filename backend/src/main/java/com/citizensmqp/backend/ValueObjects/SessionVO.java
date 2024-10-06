@@ -20,7 +20,7 @@ public class SessionVO {
         userInfo.setName(user.getName());
         userInfo.setEmail(user.getEmail());
         userInfo.setPicture(user.getPicture());
-        userInfo.setLikes(user.getLikes().stream().map(msgModel -> new msgVO().mapMessageNoUsersLiked(msgModel)).collect(Collectors.toSet()));
+        userInfo.setLikes(user.getLikes().stream().map(msgModel -> new msgVO().mapMessageCore(msgModel)).collect(Collectors.toSet()));
         this.setUserInfo(userInfo);
         this.setGoogleInfo(googleInfo);
         return this;

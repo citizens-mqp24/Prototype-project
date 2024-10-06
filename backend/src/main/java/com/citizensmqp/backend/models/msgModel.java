@@ -2,9 +2,9 @@ package com.citizensmqp.backend.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -39,6 +39,23 @@ public class msgModel {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     Set<userModel> usersLiked;
 
+    private Long comment_count;
+
+    @ManyToOne
+    @JoinTable(
+            name = "Comments",
+            joinColumns = @JoinColumn(name = "comment_message_id"),
+            inverseJoinColumns = @JoinColumn(name = "main_message_id"))
+    msgModel MainMessage;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "Comments",
+            joinColumns = @JoinColumn(name = "main_message_id"),
+            inverseJoinColumns = @JoinColumn(name = "comment_message_id"))
+    Set<msgModel> comments;
+
+
     public Long getMessage_id() {
         return message_id;
     }
@@ -58,9 +75,13 @@ public class msgModel {
     }
 
     public void addLike(userModel usr) {
-        Set<userModel> savingSet = new HashSet<>();
-        savingSet.add(usr);
-        this.usersLiked = savingSet;
+        this.likes++;
+        this.usersLiked.add(usr);
     }
+    public void addComment(msgModel msg) {
+        this.comment_count++;
+        this.comments.add(msg);
+    }
+
 }
 

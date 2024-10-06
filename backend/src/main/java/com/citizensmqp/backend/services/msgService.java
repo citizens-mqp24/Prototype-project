@@ -4,6 +4,7 @@ import com.citizensmqp.backend.ValueObjects.msgVO;
 import com.citizensmqp.backend.models.msgModel;
 import com.citizensmqp.backend.models.userModel;
 import com.citizensmqp.backend.repositorys.msgRepository;
+import io.micrometer.observation.ObservationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,15 +33,38 @@ public class msgService {
 
     public Optional<msgModel> getMsgById(long id){return(msgRepo.findById(id));}
 
+    public Optional<msgModel> getMsgByIdFull(long id){return(msgRepo.getMessageByIdFull(id));}
 
 
-    public msgModel likeMsg(msgModel msg, userModel usr) {
+
+    public void addComment(long id, msgModel comment) throws Exception {
+        Optional<userModel> user = userService.getUserByEmail(comment.getUser().getEmail());
+        if(user.isEmpty()) {
+            throw new Exception(""); //TODO make custom excption
+        }
+        comment.setUser(user.get());
+        Optional<msgModel> mainMsg = msgRepo.getMessageWithComments(id);
+        if (mainMsg.isEmpty()) {
+            throw new Exception("No message found"); // TODO make custom exception
+        }
+        msgRepo.save(comment);
+        mainMsg.get().addComment(comment);
+        msgRepo.save(mainMsg.get());
+    }
+
+
+    public msgModel likeMsg(Long id, userModel usr) {
         //TODO add prevention for if the user has already liked the message
-        msg.addLike(usr);
-        msg.setLikes(msg.getLikes()+1);
-
-        return msgRepo.save(msg);
+        Optional<msgModel> msg = msgRepo.getMessageWithLikes(id);
+        if(msg.isEmpty()) {
+            return null;
+        }
+        msg.get().addLike(usr);
+        return msgRepo.save(msg.get());
 
     }
 
+    public Optional<msgModel>  getMessageByIdFull(Long id) {
+        return msgRepo.getMessageByIdFull(id);
+    }
 }

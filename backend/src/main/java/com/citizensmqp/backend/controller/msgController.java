@@ -24,13 +24,13 @@ public class msgController {
 
     @GetMapping
     public List<msgVO> getAllMsgs() {
-        List<msgVO> msgs = msgService.getMsgs().stream().map(msgModel -> new msgVO().mapMessageNoUsersLiked(msgModel)).toList();
+        List<msgVO> msgs = msgService.getMsgs().stream().map(msgModel -> new msgVO().mapMessageCore(msgModel)).toList();
         return msgs;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<msgVO> getMsgById(@PathVariable Long id) {
-        Optional<msgVO> msg = msgService.getMsgById(id).map(msgModel -> new msgVO().mapFullMessage(msgModel));
+        Optional<msgVO> msg = msgService.getMessageByIdFull(id).map(msgModel -> new msgVO().mapMessageCore(msgModel).mapLikedUsers(msgModel).mapComments(msgModel));
         return msg.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -41,19 +41,21 @@ public class msgController {
         return ResponseEntity.ok("created message");
     }
 
+    @PostMapping("/comment/{id}")
+    public ResponseEntity<String> createMsg(@RequestBody msgModel msg,@PathVariable Long id) throws Exception {
+        msgService.addComment(id,msg);
+        return ResponseEntity.ok("created message");
+    }
+
     @PostMapping("/likes/{msgId}")
     public ResponseEntity<msgVO> likesMsg(@PathVariable Long msgId,@RequestBody userVO usr) {
         Optional<userModel> fullUser = userService.getUserByEmailWithLikes(usr.getEmail());
         if (fullUser.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        Optional<msgModel> msg = msgService.getMsgById(msgId); // we need to fetch with likes here so the context is initialized
-        if(msg.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        msgModel likedMessage =   msgService.likeMsg(msg.get(), fullUser.get());
+        msgModel likedMessage =   msgService.likeMsg(msgId, fullUser.get());
         msgVO responseMsg = new msgVO();
-        responseMsg.mapFullMessage(likedMessage);
+        responseMsg.mapMessageCore(likedMessage).mapLikedUsers(likedMessage);
         return ResponseEntity.ok(responseMsg);
     }
 }

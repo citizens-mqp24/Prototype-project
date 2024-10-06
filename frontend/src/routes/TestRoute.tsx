@@ -1,4 +1,4 @@
-import MessageCreationPopup from "../components/MessageCreationPopup.tsx";
+import MessageCreationPopup from "../components/messages/MessageCreationPopup.tsx";
 
 export default function TestRoute() {
     return(

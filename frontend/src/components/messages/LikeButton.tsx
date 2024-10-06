@@ -1,5 +1,5 @@
-import {useSession} from "../contexts/SessionContext.tsx";
-import {Message} from "../hooks/hookMessages.ts";
+import {useSession} from "../../contexts/SessionContext.tsx";
+import {Message} from "../../hooks/hookMessages.ts";
 import {useState} from "react";
 
 export default function LikeButton(props:{msg:Message,onLike?:() => void}) {

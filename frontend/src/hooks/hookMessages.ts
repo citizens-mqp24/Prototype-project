@@ -4,8 +4,11 @@ export interface Message {
     message_id?: number;
     user: User;
     likes?:number;
+    comment_count?:number
     message_text: string;
-    usersLiked?:User[]
+    usersLiked?:User[];
+    comments?:Message[]
+    mainMessage:Message|null;
 }
 
 export interface User {

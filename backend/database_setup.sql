@@ -1,6 +1,7 @@
 PRAGMA foreign_keys = ON;
 
 drop table if exists likes;
+drop table if exists Comments;
 drop table if exists Message;
 drop table if exists User;
 drop table if exists Test;
@@ -19,11 +20,20 @@ CREATE TABLE likes (
     FOREIGN KEY (message_id) REFERENCES Message(message_id)
 );
 
+CREATE TABLE Comments (
+       main_message_id INTEGER,
+       comment_message_id INTEGER,
+       FOREIGN KEY (main_message_id) REFERENCES Message(message_id),
+       FOREIGN KEY (comment_message_id) REFERENCES Message(message_id)
+);
+
+
 CREATE TABLE Message (
       message_id INTEGER PRIMARY KEY AUTOINCREMENT,
       likes INTEGER DEFAULT 0 NOT NULL,
       user_id INTEGER NOT NULL,
       message_text TEXT NOT NULL,
+      comment_count INTEGER DEFAULT 0,
       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
