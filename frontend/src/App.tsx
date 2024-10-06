@@ -10,7 +10,7 @@ function App() {
   return (
     <div >
         <div className={"flex flex-row place-items-center gap-5 p-2"}>
-            {session.hasLoggedIn  && session.info !== undefined? <ProfilePicture src={session.info?.picture} alt={"your profile picture"}/> : <></>}
+            {session.hasLoggedIn  && session.info !== undefined? <ProfilePicture src={session.info?.userInfo.picture} alt={"your profile picture"}/> : <></>}
 
             <GoogleLoginButton/>
         </div>
