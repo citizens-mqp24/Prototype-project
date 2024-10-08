@@ -69,7 +69,7 @@ export default function SingleMessageRoute() {
     window.saveFunc = saveMessage;
     return (
         <div className={"flex flex-col w-full"}>
-            <MessageDisplay message={data}></MessageDisplay>
+            <MessageDisplay showFull={true} message={data}></MessageDisplay>
             {data.comments !== undefined ?
             <MessageList messages={data.comments}/> : <></>}
         </div>

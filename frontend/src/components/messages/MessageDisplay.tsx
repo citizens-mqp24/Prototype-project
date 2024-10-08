@@ -4,8 +4,10 @@ import {useState} from "react";
 import SpeechBubbleSvg from "../icons/SpeechBubbleSvg.tsx";
 import {Link} from "react-router-dom";
 
-export default function MessageDisplay(props:{message:Message}) {
+export default function MessageDisplay(props:{message:Message,showFull:boolean}) {
     const [likes,setLikes] = useState(props.message.likes)
+    console.log(props.showFull)
+    const [showFull,setShowFull] = useState(props.showFull)
     function optomisticLike() {
         if(likes===undefined) {
             return
@@ -20,8 +22,23 @@ export default function MessageDisplay(props:{message:Message}) {
                      alt={props.message.user.name}></img>
                 <div>
                     <strong>{props.message.user.name}:</strong>
-                    <div>
-                        {props.message.message_text}
+                    <div className={"flex flex-col"}>
+                        {props.message.message_text.length > 255 && showFull ? <button className={"hover:underline"} onClick={() => setShowFull(false)}>Show less</button> : <></>}
+                        <div className={"max-h-96 overflow-scroll"}>
+                        {showFull ?
+                            <div>
+                                {props.message.message_text}
+                            </div>
+                            :
+                            <div className={"flex-col flex"}>
+                                {props.message.message_text.substring(0,255)}
+                                {props.message.message_text.length > 255 ?
+                                    <button className={"hover:underline"} onClick={() => setShowFull(true)}>show
+                                        full</button> :
+                                <></>}
+                            </div>
+                        }
+                        </div>
                     </div>
                 </div>
             </div>
