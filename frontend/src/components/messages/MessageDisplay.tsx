@@ -9,6 +9,8 @@ export default function MessageDisplay(props:{message:Message,showFull:boolean})
     console.log(props.showFull)
     const [showFull,setShowFull] = useState(props.showFull)
     function optomisticLike() {
+        console.log(likes);
+
         if(likes===undefined) {
             return
         }
@@ -44,7 +46,7 @@ export default function MessageDisplay(props:{message:Message,showFull:boolean})
             </div>
             <div className={"flex flex-row gap-5"}>
                 <div className={"flex flex-row gap-2"}>
-                    <LikeButton onLike={() => optomisticLike} msg={props.message}></LikeButton>
+                    <LikeButton onLike={optomisticLike} msg={props.message}></LikeButton>
                     <div className={"place-self-center"}>
                         {likes}
                     </div>

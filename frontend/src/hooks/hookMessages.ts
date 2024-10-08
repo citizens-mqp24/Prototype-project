@@ -25,28 +25,29 @@ function useFetchData(apiUrl: string) {
     const [error, setError] = useState<string | null>(null); // Holds errors
     const optimisticMessagesSent = useRef(-1);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error(`Error fetching data: ${response.statusText}`);
-                }
-                const result = await response.json();
-                setData(result);
-            } catch (error) {
-                if (error instanceof Error) {
-                    console.error(error.message);
-                    setError(error.message); //if there are any errors will store errors
-                } else {
-                    console.error("An unknown error occurred.");
-                    console.error(error);
-                }
-            } finally {
-                setLoading(false); //Will set loading state to not loading anymore regardless of errors or no errors
+    const fetchData = async () => {
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`Error fetching data: ${response.statusText}`);
             }
-        };
-        fetchData();
+            const result = await response.json();
+            setData(result);
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error(error.message);
+                setError(error.message); //if there are any errors will store errors
+            } else {
+                console.error("An unknown error occurred.");
+                console.error(error);
+            }
+        } finally {
+            setLoading(false); //Will set loading state to not loading anymore regardless of errors or no errors
+        }
+    };
+
+    useEffect(() => {
+        fetchData().then();
     }, [apiUrl]);
 
     function optimisticUpdate(msg:Message) {
@@ -55,7 +56,7 @@ function useFetchData(apiUrl: string) {
         setData([...data,msg]);
     }
 
-    return {data, loading, error,optimisticUpdate};
+    return {data, loading, error,optimisticUpdate,fetchData};
 }
 
 export default useFetchData;

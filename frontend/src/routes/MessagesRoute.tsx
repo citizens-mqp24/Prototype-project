@@ -6,7 +6,7 @@ import LoadingMessageDisplay from "../components/messages/LoadingMessageDisplay.
 
 export default function MessagesRoute(){
     const apiUrl = 'http://localhost:8080/api/msg'; // URL to your API
-    const { data, loading, error,optimisticUpdate } = useFetchData(apiUrl);
+    const { data, loading, error,optimisticUpdate,fetchData } = useFetchData(apiUrl);
     const session = useSession();
     if (loading) {
         return (
@@ -48,6 +48,7 @@ export default function MessagesRoute(){
             },
             body:JSON.stringify(msg)
         })
+        fetchData().then()
     }
     window.saveFunc = saveMessage;
     // we add the filter here to filter out comments
