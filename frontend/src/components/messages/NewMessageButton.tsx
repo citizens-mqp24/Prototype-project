@@ -20,7 +20,7 @@ export function NewMessageButton(props:{children:ReactNode,saveMessage:(txt:stri
             </button>
             {createPortal(
                 <MessageCreationPopup hidden={isHidden} submitMsg={(txt) => {
-                    window.saveFunc(txt).then();
+                    window.saveFunc(txt).then(() => {setIsHidden(true)});
                 }} onClose={() => setIsHidden(true)}></MessageCreationPopup>,
                 document.body
             )}

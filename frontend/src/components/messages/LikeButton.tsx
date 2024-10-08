@@ -12,10 +12,10 @@ export default function LikeButton(props:{msg:Message,onLike?:() => void}) {
             return
         }
         if(props.onLike !== undefined) {
+            console.log(props.onLike)
             props.onLike() // used for optimistic updates
         }
         setHasLiked(true);
-        console.log(session)
         fetch(`/api/msg/likes/${messageId}`, {
             method: "POST",
             headers: {

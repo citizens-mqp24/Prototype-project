@@ -46,9 +46,9 @@ insert into Test values (123);
 insert into Test values (9000000);
 insert into Test values (456);
 
-insert into User (name,EMAIL,PICTURE) values ('Alice','Alice@gmail.com','');
-INSERT INTO User (name,EMAIL,PICTURE)VALUES ('Bob','Bob@gmail.com','');
-INSERT INTO User (name,EMAIL,PICTURE) VALUES ('Charlie','Charlie@gmail.com','');
+insert into User (name,EMAIL,PICTURE) values ('Alice','Alice@gmail.com','https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
+INSERT INTO User (name,EMAIL,PICTURE)VALUES ('Bob','Bob@gmail.com','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-iI_Nshu2x5taM7zZchxjuRSdgMu5WDo_fg&s');
+INSERT INTO User (name,EMAIL,PICTURE) VALUES ('Charlie','Charlie@gmail.com','https://images.pexels.com/photos/162539/architecture-building-amsterdam-blue-sky-162539.jpeg?cs=srgb&dl=pexels-pixabay-162539.jpg&fm=jpg');
 
 INSERT INTO Message (user_id, likes, message_text) VALUES ( 1,1,'Hello, this is Alice!');
 INSERT INTO Message (user_id, likes, message_text) VALUES ( 2,2,'Hey Alice, this is Bob.');
