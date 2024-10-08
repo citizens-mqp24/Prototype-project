@@ -1,6 +1,7 @@
 import useFetchData, {Message} from '../hooks/hookMessages.ts';
 import {useSession} from "../contexts/SessionContext.tsx";
 import {MessageList} from "../components/messages/MessageList.tsx";
+import LoadingMessageDisplay from "../components/messages/LoadingMessageDisplay.tsx";
 
 
 export default function MessagesRoute(){
@@ -8,7 +9,18 @@ export default function MessagesRoute(){
     const { data, loading, error,optimisticUpdate } = useFetchData(apiUrl);
     const session = useSession();
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className={"flex flex-col"}>
+                <LoadingMessageDisplay/>
+                <LoadingMessageDisplay/>
+                <LoadingMessageDisplay/>
+                <LoadingMessageDisplay/>
+                <LoadingMessageDisplay/>
+                <LoadingMessageDisplay/>
+                <LoadingMessageDisplay/>
+                <LoadingMessageDisplay/>
+            </div>
+        )
     }
 
     if (error) {
@@ -39,7 +51,7 @@ export default function MessagesRoute(){
     }
     window.saveFunc = saveMessage;
     // we add the filter here to filter out comments
-    return (
+    return(
         <MessageList messages={data.filter(msg => msg.mainMessage == null)}/>
     );
 }
