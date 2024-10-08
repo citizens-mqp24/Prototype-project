@@ -26,7 +26,7 @@ public class userVO {
         this.setUser_id(usr.getUser_id());
         this.setName(usr.getName());
         this.setPicture(usr.getPicture());
-        this.setPicture(usr.getEmail());
+        this.setEmail(usr.getEmail());
         return this;
     }
     public userVO setupUserLikes(userModel usr) {
