@@ -1,6 +1,8 @@
 import {useSession} from "../../contexts/SessionContext.tsx";
 import {Message} from "../../hooks/hookMessages.ts";
 import {useState} from "react";
+import LikedIcon from "../icons/LikedIcon.tsx";
+import SleepyIcon from "../icons/SleepyIcon.tsx";
 
 export default function LikeButton(props:{msg:Message,onLike?:() => void}) {
     const session = useSession();
@@ -24,7 +26,6 @@ export default function LikeButton(props:{msg:Message,onLike?:() => void}) {
             })
         }).then()
     }
-    console.log(session)
     if(session.hasLoggedIn == false && session.info == undefined) {
         return;
     }
@@ -38,12 +39,16 @@ export default function LikeButton(props:{msg:Message,onLike?:() => void}) {
         const messageIds:(number | undefined)[] = session.info.userInfo.likes
             .map((likedMsg) => likedMsg.message_id);
         if (messageIds.includes(props.msg.message_id) || hasLiked===true) {
-            return <div
-                           className={"border p-3 rounded-2xl bg-blue-200"}>Like</div>
+            return <div className={"w-fit py-1 px-1 rounded-full bg-neon-pink-100"}>
+                <LikedIcon/>
+            </div>
         }
     }
 
     return (
-        <button onClick={() => likePost(props.msg.message_id)} className={"border p-3 rounded-2xl"}>Like</button>
+        <button onClick={() => likePost(props.msg.message_id)}
+                className={"bg-neon-pink-200 hover:bg-neon-pink-100 w-fit py-1 px-1 rounded-full rounded-2xl"}>
+            <SleepyIcon/>
+        </button>
     )
 }

@@ -24,6 +24,7 @@ public class msgService {
         }
         msg.setUser(user.get());
         msg.setLikes(0L);
+        msg.setComment_count(0L);
         msgRepo.save(msg);
     }
 

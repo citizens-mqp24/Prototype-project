@@ -8,6 +8,7 @@ import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {SessionContextProvider} from "./contexts/SessionContext.tsx";
 import MessagesRoute from "./routes/MessagesRoute.tsx";
 import SingleMessageRoute from "./routes/SingleMessageRoute.tsx";
+import MessageSaveContextProvider from "./contexts/SaveMessageContext.tsx";
 
 
 const router = createBrowserRouter(
@@ -26,7 +27,9 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
       <QueryClientProvider client={queryClient}>
           <SessionContextProvider>
-            <RouterProvider router={router}></RouterProvider>
+              <MessageSaveContextProvider>
+                 <RouterProvider router={router}></RouterProvider>
+              </MessageSaveContextProvider>
           </SessionContextProvider>
       </QueryClientProvider>
   </StrictMode>,

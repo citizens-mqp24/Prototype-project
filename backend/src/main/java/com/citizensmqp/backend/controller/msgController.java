@@ -34,6 +34,7 @@ public class msgController {
         return msgs;
     }
 
+
     @Timed
     @GetMapping("/{id}")
     public ResponseEntity<msgVO> getMsgById(@PathVariable Long id) {

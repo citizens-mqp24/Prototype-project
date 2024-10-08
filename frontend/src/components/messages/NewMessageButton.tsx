@@ -1,8 +1,13 @@
 import MessageCreationPopup from "./MessageCreationPopup.tsx";
 import {ReactNode, useState} from "react";
 import {useSession} from "../../contexts/SessionContext.tsx";
+import {createPortal} from "react-dom";
+declare global {
+    interface Window {  saveFunc: (txt:string) => Promise<void>;}
+}
 
-export function NewMessageButton(props:{children:ReactNode,saveMessage:(txt:string) => void}) {
+
+export function NewMessageButton(props:{children:ReactNode,saveMessage:(txt:string) => Promise<void>}) {
     const [isHidden,setIsHidden] = useState(true);
     const session = useSession();
     if(session.hasLoggedIn == false) {
@@ -10,12 +15,15 @@ export function NewMessageButton(props:{children:ReactNode,saveMessage:(txt:stri
     }
     return(
         <>
-            <button onClick={()=> setIsHidden(false)}>
+            <button onClick={()=>  setIsHidden(false)}>
                 {props.children}
             </button>
-            <MessageCreationPopup hidden={isHidden} submitMsg={(txt) => {
-                props.saveMessage(txt);
-            }} onClose={() => setIsHidden(true)}></MessageCreationPopup></>
-
+            {createPortal(
+                <MessageCreationPopup hidden={isHidden} submitMsg={(txt) => {
+                    window.saveFunc(txt).then();
+                }} onClose={() => setIsHidden(true)}></MessageCreationPopup>,
+                document.body
+            )}
+        </>
     )
 }

@@ -4,7 +4,7 @@ export default function GoogleLoginButton() {
     const session = useSession();
 
         return (
-            <div className="px-5 py-2 border-2 border-black rounded-2xl w-fit h-fit drop-shadow-2xl">
+            <div className="px-5 py-2 border-2 border-white rounded-2xl w-full h-fit drop-shadow-2xl">
                 {/*todo add a google icon*/}
                 {
                     session.hasLoggedIn == false ?

@@ -1,20 +1,19 @@
 import useFetchData, {Message} from '../hooks/hookMessages.ts';
-import MessageDisplay from "../components/messages/MessageDisplay.tsx";
 import {useSession} from "../contexts/SessionContext.tsx";
-import {NewMessageButton} from "../components/messages/NewMessageButton.tsx";
+import {MessageList} from "../components/messages/MessageList.tsx";
+
 
 export default function MessagesRoute(){
-        const apiUrl = 'http://localhost:8080/api/msg'; // URL to your API
-        const { data, loading, error,optimisticUpdate } = useFetchData(apiUrl);
-        const session = useSession();
-        if (loading) {
-            return <div>Loading...</div>;
-        }
+    const apiUrl = 'http://localhost:8080/api/msg'; // URL to your API
+    const { data, loading, error,optimisticUpdate } = useFetchData(apiUrl);
+    const session = useSession();
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
-        if (error) {
-            return <div>Error: {error}</div>;
-        }
-
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
     async function saveMessage(txt:string) {
         if(session.info == undefined) {
             return; //TOOD error
@@ -25,6 +24,7 @@ export default function MessagesRoute(){
             user: {
                 name: session.info.userInfo.name,
                 email: session.info.userInfo.email,
+                picture: session.info.userInfo.picture
             },
             likes:0
         }
@@ -37,17 +37,9 @@ export default function MessagesRoute(){
             body:JSON.stringify(msg)
         })
     }
+    window.saveFunc = saveMessage;
     // we add the filter here to filter out comments
     return (
-        <div>
-            <ul>
-                {data.filter(msg => msg.mainMessage == null).map(item => (
-                    <MessageDisplay message={item}></MessageDisplay>
-                ))}
-            </ul>
-            <NewMessageButton saveMessage={saveMessage}>
-                New Message
-            </NewMessageButton>
-        </div>
+        <MessageList messages={data.filter(msg => msg.mainMessage == null)}/>
     );
 }
